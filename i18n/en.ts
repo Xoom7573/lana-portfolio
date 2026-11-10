@@ -64,7 +64,7 @@ const en = {
         items: ["Canva", "Adobe Photoshop", "Adobe InDesign"],
       },
       { title: ["Content &", "Video"], items: ["CapCut", "InShot", "Later"] },
-      { title: ["Digital &", "Marketing"], items: ["WordPress", "Klaviyo"] },
+      { title: ["Digital &", "Marketing"], items: ["WordPress", "Craft CMS", "Klaviyo"] },
       { title: ["Languages"], items: ["Dutch", "English", "French", "German"] },
     ],
   },

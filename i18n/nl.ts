@@ -65,7 +65,7 @@ const nl: Dictionary = {
         items: ["Canva", "Adobe Photoshop", "Adobe InDesign"],
       },
       { title: ["Content &", "Video"], items: ["CapCut", "InShot", "Later"] },
-      { title: ["Digitaal &", "Marketing"], items: ["WordPress", "Klaviyo"] },
+      { title: ["Digitaal &", "Marketing"], items: ["WordPress", "Craft CMS", "Klaviyo"] },
       { title: ["Talen"], items: ["Nederlands", "Engels", "Frans", "Duits"] },
     ],
   },
