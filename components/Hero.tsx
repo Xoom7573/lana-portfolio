@@ -1,4 +1,5 @@
 import Image from "next/image";
+import HeroDepth from "./HeroDepth";
 import Parallax from "./Parallax";
 import { person, type Content } from "@/content";
 import { fill } from "@/i18n/config";
@@ -15,21 +16,44 @@ function Letters({ word, base }: { word: string; base: number }) {
   ));
 }
 
+// Position and size shared by the headline and its outline copy, so they line up exactly.
+const wordsClass =
+  "depth [--depth:-10] headline absolute bottom-[7%] left-3 text-[clamp(4.1rem,16.5vw,15.5rem)] text-blush md:bottom-[9%] md:left-[6%] lg:left-[8%]";
+
+// The two headline lines. Both copies use the same letter delays, so they rise in sync.
+function HeroWords({ words, outline = false }: { words: string[]; outline?: boolean }) {
+  return (
+    <>
+      <span aria-hidden className={`block pl-[0.35em] ${outline ? "text-outline hero-outline" : ""}`}>
+        <Letters word={words[0]} base={150} />
+      </span>
+      <span aria-hidden className="block">
+        <Letters word={words[1]} base={450} />
+      </span>
+    </>
+  );
+}
+
 // Slide 1: "CREATIVE" sits behind the portrait, "PORTFOLIO" in front of it.
+// From md up there are two copies of the headline: the solid one behind the photo, and
+// one in front with "CREATIVE" as an outline and a solid "PORTFOLIO". The outline only
+// fades in while the photo or the headline is hovered, revealing the hidden letters.
+// On narrow screens the photo would hide all of "CREATIVE", so the solid headline
+// simply sits in front.
 export default function Hero({ t }: { t: Content["hero"] }) {
   return (
-    <section id="top" className="relative isolate h-svh min-h-155 overflow-hidden">
+    <HeroDepth id="top" className="relative isolate h-svh min-h-155 overflow-hidden">
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_60%_at_68%_45%,#7a1c40_0%,transparent_70%)]"
+        className="depth [--depth:-28] absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_60%_at_68%_45%,#7a1c40_0%,transparent_70%)]"
       />
 
-      <div className="relative mx-auto h-full max-w-[1400px] px-5 md:px-12">
+      <div className="hero-stage relative mx-auto h-full max-w-[1400px] px-5 md:px-12">
         <Parallax
           speed={0.12}
-          className="absolute bottom-0 right-[-14%] z-10 h-[64%] w-auto sm:right-[2%] sm:h-[72%] md:h-[86%] lg:right-[10%]"
+          className="hero-hover absolute bottom-0 right-[-14%] z-10 h-[64%] w-auto sm:right-[2%] sm:h-[72%] md:h-[86%] lg:right-[10%]"
         >
-          <div className="fade-in h-full" style={{ "--delay": "350ms" } as React.CSSProperties}>
+          <div className="mask-reveal h-full" style={{ "--delay": "350ms" } as React.CSSProperties}>
             <Image
               src="/images/lana-cutout.webp"
               alt={fill(t.portraitAlt, { name: person.name })}
@@ -42,16 +66,13 @@ export default function Hero({ t }: { t: Content["hero"] }) {
           </div>
         </Parallax>
 
-        <h1 className="headline absolute bottom-[7%] left-3 text-[clamp(4.1rem,16.5vw,15.5rem)] text-blush md:bottom-[9%] md:left-[6%] lg:left-[8%]">
+        <h1 className={`${wordsClass} hero-hover z-20 md:z-0`}>
           <span className="sr-only">{t.title}</span>
-          {/* On narrow screens the photo would hide all of "CREATIVE", so it stays in front. */}
-          <span aria-hidden className="relative z-20 block pl-[0.35em] md:z-0">
-            <Letters word={t.words[0]} base={150} />
-          </span>
-          <span aria-hidden className="relative z-20 block">
-            <Letters word={t.words[1]} base={450} />
-          </span>
+          <HeroWords words={t.words} />
         </h1>
+        <div aria-hidden className={`${wordsClass} pointer-events-none z-20 hidden md:block`}>
+          <HeroWords words={t.words} outline />
+        </div>
 
         <a
           href="#about"
@@ -64,6 +85,6 @@ export default function Hero({ t }: { t: Content["hero"] }) {
           <span className="block h-10 w-px origin-top animate-pulse bg-current" />
         </a>
       </div>
-    </section>
+    </HeroDepth>
   );
 }

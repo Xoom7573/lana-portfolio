@@ -147,6 +147,46 @@ body::after {
   }
 }
 
+/* Hero depth: HeroDepth sets --px / --py (-1 to 1) from the pointer, and each layer
+   shifts by its own --depth in px at the edge of the screen. Negative values move
+   against the pointer, which reads as further away. Uses `translate` so it stacks
+   with the intro animations. */
+.depth {
+  translate: calc(var(--px, 0) * var(--depth, 0) * 1px) calc(var(--py, 0) * var(--depth, 0) * 0.6px);
+}
+
+/* Hero portrait intro: the photo is unveiled by a mask wiping up from the bottom. */
+.mask-reveal {
+  animation: mask-reveal 1.6s var(--ease-editorial) both;
+  animation-delay: var(--delay, 0ms);
+}
+@keyframes mask-reveal {
+  from {
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(8%) scale(1.06);
+  }
+  to {
+    clip-path: inset(0);
+    transform: none;
+  }
+}
+
+/* Hero: a hollow copy of "CREATIVE" drawn over the portrait. Over the uncovered
+   letters it lands on their own edge in the same colour, so only the part crossing
+   the photo shows. */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: max(1.5px, 0.012em) var(--color-blush);
+}
+/* It only shows while the photo or the headline is hovered. */
+.hero-outline {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-editorial);
+}
+.hero-stage:has(.hero-hover:hover) .hero-outline {
+  opacity: 1;
+}
+
 /* Set by CursorLabel while its bubble shows, so the pointer doesn't hide the text. */
 .cursor-hidden,
 .cursor-hidden * {
@@ -174,6 +214,7 @@ dialog::backdrop {
   }
   .letter,
   .fade-in,
+  .mask-reveal,
   .marquee-track,
   .spin-slow {
     animation: none;
