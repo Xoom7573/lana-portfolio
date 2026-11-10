@@ -51,7 +51,7 @@ export default function About({ t }: { t: Content["about"] }) {
                   <Reveal
                     as="span"
                     delay={300}
-                    className="mb-10 flex justify-center lg:absolute lg:right-0 lg:top-0 lg:mb-0 lg:translate-x-[50%] xl:translate-x-[65%] lg:-translate-y-[78%] lg:rotate-12"
+                    className="mb-10 flex justify-center lg:absolute lg:right-0 lg:top-0 lg:mb-0 lg:translate-x-[50%] xl:translate-x-[65%] lg:-translate-y-[62%] lg:rotate-12"
                   >
                     <Sticker ring={t.sticker} center={t.stickerCenter} />
                   </Reveal>
