@@ -147,6 +147,12 @@ body::after {
   }
 }
 
+/* Set by CursorLabel while its bubble shows, so the pointer doesn't hide the text. */
+.cursor-hidden,
+.cursor-hidden * {
+  cursor: none !important;
+}
+
 html:has(dialog[open]) {
   overflow: hidden;
 }
