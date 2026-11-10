@@ -16,7 +16,7 @@ function Highlighted({ text }: { text: string }) {
 
 function Sticker({ ring, center }: { ring: string; center: string }) {
   return (
-    <div aria-hidden className="relative h-32 w-32 md:h-40 md:w-40">
+    <span aria-hidden className="relative block h-32 w-32 md:h-40 md:w-40">
       <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full">
         <defs>
           <path id="sticker-circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
@@ -32,7 +32,7 @@ function Sticker({ ring, center }: { ring: string; center: string }) {
       <span className="headline absolute inset-0 flex items-center justify-center text-3xl text-maroon md:text-4xl">
         {center}
       </span>
-    </div>
+    </span>
   );
 }
 
@@ -40,15 +40,25 @@ export default function About({ t }: { t: Content["about"] }) {
   return (
     <section id="about" className="relative px-5 py-32 md:px-12 md:py-44">
       <div className="mx-auto max-w-[1400px]">
-        <div className="relative mx-auto max-w-6xl text-center">
-          <div className="mb-10 flex justify-center md:absolute md:-top-24 md:right-0 md:mb-0 md:rotate-12 lg:-top-20">
-            <Reveal delay={300}>
-              <Sticker ring={t.sticker} center={t.stickerCenter} />
-            </Reveal>
-          </div>
+        <div className="mx-auto max-w-6xl text-center">
           <Reveal>
             <SectionHeading
-              lines={[t.heading[0], t.heading[1]]}
+              lines={[
+                // On large screens the sticker is pinned to the end of the first line, so it
+                // only catches the corner of the last word, whatever the language or width.
+                // Smaller screens show it centred above the heading.
+                <span key="first" className="relative block lg:inline-block">
+                  <Reveal
+                    as="span"
+                    delay={300}
+                    className="mb-10 flex justify-center lg:absolute lg:right-0 lg:top-0 lg:mb-0 lg:translate-x-[50%] xl:translate-x-[65%] lg:-translate-y-[78%] lg:rotate-12"
+                  >
+                    <Sticker ring={t.sticker} center={t.stickerCenter} />
+                  </Reveal>
+                  {t.heading[0]}
+                </span>,
+                t.heading[1],
+              ]}
               className="text-[clamp(2.4rem,7.2vw,6.25rem)]"
             />
           </Reveal>
