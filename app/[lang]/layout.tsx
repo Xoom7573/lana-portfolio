@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { League_Spartan, Urbanist } from "next/font/google";
 import { notFound } from "next/navigation";
-import { getContent } from "@/content";
-import { defaultLocale, isLocale, locales } from "@/i18n/config";
+import { getContent, person, siteUrl } from "@/content";
+import { isLocale, locales } from "@/i18n/config";
 import "../globals.css";
 
 const leagueSpartan = League_Spartan({
@@ -26,26 +26,42 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const { meta } = getContent(lang);
+  // public/og.jpg is made by scripts/prepare-images.mjs from the title slide.
+  const image = { url: "/og.jpg", width: 1200, height: 630, type: "image/jpeg", alt: meta.ogImageAlt };
 
   return {
-    // Set NEXT_PUBLIC_SITE_URL to the live domain so social previews resolve.
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    metadataBase: siteUrl,
     title: meta.title,
     description: meta.description,
+    applicationName: person.name,
+    authors: [{ name: person.name, url: siteUrl }],
+    creator: person.name,
     alternates: {
       canonical: `/${lang}`,
       languages: {
         ...Object.fromEntries(locales.map((l) => [l, `/${l}`])),
-        "x-default": `/${defaultLocale}`,
+        // "/" sends visitors to their own language.
+        "x-default": "/",
       },
     },
     openGraph: {
+      type: "website",
+      url: `/${lang}`,
+      siteName: person.name,
       title: meta.title,
       description: meta.ogDescription,
       locale: meta.ogLocale,
-      images: [{ url: "/og.jpg", width: 1200, height: 630 }],
-      type: "website",
+      alternateLocale: locales.filter((l) => l !== lang).map((l) => getContent(l).meta.ogLocale),
+      images: [image],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.ogDescription,
+      images: [image],
+    },
+    // Stop iOS from turning numbers in the text into phone links.
+    formatDetection: { telephone: false },
   };
 }
 

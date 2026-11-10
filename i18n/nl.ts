@@ -7,8 +7,9 @@ const nl: Dictionary = {
   meta: {
     title: "Lana Libeert — Creatief portfolio",
     description:
-      "Het creatieve portfolio van Lana Libeert: editorial design, branding, content en een scherp oog voor mode en detail.",
-    ogDescription: "Een creatieve geest, altijd in beweging.",
+      "Het creatieve portfolio van Lana Libeert: grafisch en editorial design, branding, social content en digitale marketing, met oog voor mode en detail.",
+    ogDescription: "Een creatieve geest, altijd in beweging. Design, branding en content met oog voor mode en detail.",
+    ogImageAlt: "Creatief portfolio van Lana Libeert",
     ogLocale: "nl_BE",
   },
 

@@ -5,9 +5,12 @@
 const en = {
   meta: {
     title: "Lana Libeert — Creative Portfolio",
+    // Shown under the title in Google results; keep it under ~160 characters.
     description:
-      "Creative portfolio of Lana Libeert: editorial design, branding, content and a strong eye for fashion and detail.",
-    ogDescription: "A creative mind, always evolving.",
+      "Lana Libeert's creative portfolio: graphic and editorial design, branding, social content and digital marketing, with an eye for fashion and detail.",
+    // Shown under the title in link previews (WhatsApp, LinkedIn, Instagram, …).
+    ogDescription: "A creative mind, always evolving. Design, branding and content with an eye for fashion and detail.",
+    ogImageAlt: "Creative Portfolio, presented by Lana Libeert",
     ogLocale: "en_GB",
   },
 

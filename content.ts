@@ -13,7 +13,17 @@ export const person = {
   phone: "+32486153839",
 };
 
-export const palette = ["#ffffff", "#ffd5e5", "#5d0e2a"] as const;
+// The live address, used for link previews, the sitemap and canonical links.
+// Set NEXT_PUBLIC_SITE_URL to the real domain; on Vercel the project's
+// production domain is used when it isn't set.
+export const siteUrl = new URL(
+  process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000"),
+);
+
+export const palette =["#ffffff", "#ffd5e5", "#5d0e2a"] as const;
 
 type ImageSize = { src: string; width: number; height: number };
 export type Page = ImageSize & { full: ImageSize; label: string };

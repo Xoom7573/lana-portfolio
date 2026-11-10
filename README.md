@@ -88,4 +88,11 @@ Urbanist stands in for Hero, the font from the Canva slides, because Hero isn't 
 
 ## Deploying
 
-The pages are prerendered, and the redirect from `/` to a language runs in [`proxy.ts`](proxy.ts). That needs a Next.js host, such as [Vercel](https://vercel.com). A plain static export (`output: "export"`) would serve `/en` and `/nl` but not that redirect. Set the environment variable `NEXT_PUBLIC_SITE_URL` to the live address (for example `https://example.com`) so link previews on social media show the right image.
+The pages are prerendered, and the redirect from `/` to a language runs in [`proxy.ts`](proxy.ts). That needs a Next.js host, such as [Vercel](https://vercel.com). A plain static export (`output: "export"`) would serve `/en` and `/nl` but not that redirect. Set the environment variable `NEXT_PUBLIC_SITE_URL` to the live address (for example `https://example.com`). Link previews, the sitemap and the canonical links use it. On Vercel, the project's production domain is used if it isn't set.
+
+## SEO and link previews
+
+- The page title, the Google description and the link-preview text are under `meta` in [`i18n/en.ts`](i18n/en.ts) and [`i18n/nl.ts`](i18n/nl.ts).
+- The preview image is `public/og.jpg` (1200 × 630). `scripts/prepare-images.mjs` makes it from the title slide.
+- `/sitemap.xml` and `/robots.txt` come from [`app/sitemap.ts`](app/sitemap.ts) and [`app/robots.ts`](app/robots.ts).
+- To check a preview after deploying, paste the link into the [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) or the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/). Both also refresh a preview that's out of date.
