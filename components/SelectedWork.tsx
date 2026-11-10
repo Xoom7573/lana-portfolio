@@ -6,7 +6,7 @@ import { likami, swapCloset } from "@/content";
 // The "Portfolio" cover is a miniature of the hero, as on slide 4.
 function PortfolioCover() {
   return (
-    <div className="relative isolate aspect-[456/604] overflow-hidden bg-maroon-soft">
+    <div className="relative isolate aspect-[1/1.414] overflow-hidden bg-maroon-soft">
       <span aria-hidden className="headline absolute -left-[46%] top-[42%] z-0 text-[5.6rem] leading-[0.86] text-blush sm:text-[7rem] lg:text-[6.4rem]">
         Creative
       </span>
@@ -27,7 +27,7 @@ function PortfolioCover() {
 
 function CoverImage({ src, width, height, alt }: { src: string; width: number; height: number; alt: string }) {
   return (
-    <div className="aspect-[456/604] overflow-hidden bg-white">
+    <div className="aspect-[1/1.414] overflow-hidden bg-white">
       <Image
         src={src}
         width={width}
