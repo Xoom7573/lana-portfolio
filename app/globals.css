@@ -1,26 +1,164 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-maroon: #5d0e2a;
+  --color-maroon-deep: #4c0a22;
+  --color-maroon-soft: #6e1a39;
+  --color-blush: #ffd5e5;
+  --color-rose: #e4a5bf;
+  --color-paper: #f8f4f4;
+
+  --ease-editorial: cubic-bezier(0.2, 0.75, 0.2, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-league-spartan), "Arial Black", sans-serif;
+  --font-body: var(--font-urbanist), "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* The slides' headline style: heavy, uppercase, tightly set. */
+@utility headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.025em;
+}
+
+@utility eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+html {
+  background: var(--color-maroon);
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-maroon);
+  color: #fff;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-blush);
+  color: var(--color-maroon);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-blush);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Printed-paper grain over everything. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Scroll reveal (toggled by <Reveal>). */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.9s var(--ease-editorial),
+    transform 1s var(--ease-editorial);
+  transition-delay: var(--delay, 0ms);
+}
+.reveal[data-shown] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero headline: letters rise in one after another. */
+.letter {
+  display: inline-block;
+  animation: letter-rise 1.1s var(--ease-editorial) both;
+  animation-delay: calc(var(--i) * 45ms + var(--base, 150ms));
+}
+@keyframes letter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em) rotate(6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fade-in {
+  animation: fade-in 1.4s var(--ease-editorial) both;
+  animation-delay: var(--delay, 0ms);
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.spin-slow {
+  animation: spin 22s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+dialog::backdrop {
+  background: rgb(46 5 20 / 0.92);
+  backdrop-filter: blur(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal[data-shown] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .letter,
+  .fade-in,
+  .marquee-track,
+  .spin-slow {
+    animation: none;
+  }
 }
