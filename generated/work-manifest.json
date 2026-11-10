@@ -69,27 +69,27 @@
       "thumb": {
         "src": "/work/swapcloset/page-06.webp",
         "width": 600,
-        "height": 846
+        "height": 851
       },
       "full": {
-        "src": "/work/swapcloset/page-06.webp",
-        "width": 600,
-        "height": 846
+        "src": "/work/swapcloset/full/page-06.webp",
+        "width": 1600,
+        "height": 2269
       },
-      "hiRes": false
+      "hiRes": true
     },
     {
       "thumb": {
         "src": "/work/swapcloset/page-07.webp",
         "width": 600,
-        "height": 843
+        "height": 845
       },
       "full": {
-        "src": "/work/swapcloset/page-07.webp",
-        "width": 600,
-        "height": 843
+        "src": "/work/swapcloset/full/page-07.webp",
+        "width": 1600,
+        "height": 2253
       },
-      "hiRes": false
+      "hiRes": true
     },
     {
       "thumb": {
