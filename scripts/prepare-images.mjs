@@ -31,6 +31,35 @@ await sharp(src("image-based-portfolio/slide_01.png"))
   .jpeg({ quality: 88 })
   .toFile(out("og.jpg"));
 
+// Tab icons, drawn in app/icon.svg (modern browsers use that file directly).
+// favicon.ico is for older browsers; apple-icon.png is the iOS home-screen icon,
+// square because iOS rounds the corners itself.
+const iconSvg = fs.readFileSync(src("app/icon.svg"), "utf8");
+const icoSizes = [16, 32, 48];
+const icoImages = await Promise.all(
+  icoSizes.map((size) => sharp(Buffer.from(iconSvg), { density: 72 * (size / 64) * 4 }).resize(size, size).png().toBuffer()),
+);
+// An .ico file is a small header and directory followed by the PNG images.
+const icoHeader = Buffer.alloc(6 + 16 * icoImages.length);
+icoHeader.writeUInt16LE(1, 2);
+icoHeader.writeUInt16LE(icoImages.length, 4);
+let icoOffset = icoHeader.length;
+icoImages.forEach((png, i) => {
+  const entry = 6 + 16 * i;
+  icoHeader.writeUInt8(icoSizes[i], entry);
+  icoHeader.writeUInt8(icoSizes[i], entry + 1);
+  icoHeader.writeUInt16LE(1, entry + 4);
+  icoHeader.writeUInt16LE(32, entry + 6);
+  icoHeader.writeUInt32LE(png.length, entry + 8);
+  icoHeader.writeUInt32LE(icoOffset, entry + 12);
+  icoOffset += png.length;
+});
+fs.writeFileSync(src("app/favicon.ico"), Buffer.concat([icoHeader, ...icoImages]));
+await sharp(Buffer.from(iconSvg.replace(/rx="\d+"/, 'rx="0"')), { density: 72 * (180 / 64) * 2 })
+  .resize(180, 180)
+  .png()
+  .toFile(src("app/apple-icon.png"));
+
 // ---------------------------------------------------------------------------
 // Project pages.
 //
