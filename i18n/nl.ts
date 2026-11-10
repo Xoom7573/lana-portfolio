@@ -36,7 +36,16 @@ const nl: Dictionary = {
     scroll: "Scroll",
   },
 
-  marquee: ["Mode", "Detail", "Creatief proces", "Grafisch ontwerp", "Editorial", "Content", "Kleur", "Samenwerking"],
+  marquee: [
+    "Mode",
+    "Detail",
+    "Creatief proces",
+    "Grafisch ontwerp",
+    "Editorial",
+    "Content",
+    "Kleur",
+    "Samenwerking",
+  ],
 
   about: {
     heading: ["Een creatieve geest,", "altijd in beweging."],
@@ -54,7 +63,10 @@ const nl: Dictionary = {
   toolkit: {
     heading: ["Mijn creatieve", "toolbox."],
     groups: [
-      { title: ["Design &", "Creativiteit"], items: ["Canva", "Adobe Photoshop", "Adobe InDesign"] },
+      {
+        title: ["Design &", "Creativiteit"],
+        items: ["Canva", "Adobe Photoshop", "Adobe InDesign"],
+      },
       { title: ["Content &", "Video"], items: ["CapCut", "InShot", "Later"] },
       { title: ["Digitaal &", "Marketing"], items: ["WordPress", "Klaviyo"] },
       { title: ["Talen"], items: ["Nederlands", "Engels", "Frans", "Duits"] },
@@ -96,10 +108,14 @@ const nl: Dictionary = {
     heading: "Het ontwerp achter dit portfolio.",
     palette: "Kleurenpalet",
     typography: "Typografie",
-    headlineFont: "Koppen — vet, in hoofdletters, zelfverzekerd",
-    bodyFont: "Broodtekst — licht, open, vriendelijk",
+    headlineFont: "Headlines — vet, in hoofdletters, zelfverzekerd",
+    bodyFont: "Body copy — licht, open, vriendelijk",
     moodboard: "Moodboard",
-    colours: { "#ffffff": "Wit", "#ffd5e5": "Poederroze", "#5d0e2a": "Bordeaux" },
+    colours: {
+      "#ffffff": "Wit",
+      "#ffd5e5": "Poederroze",
+      "#5d0e2a": "Bordeaux",
+    },
     copy: "Kopieer {name} ({hex})",
     copied: "Gekopieerd ✓",
   },

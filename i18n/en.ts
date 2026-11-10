@@ -35,7 +35,16 @@ const en = {
     scroll: "Scroll",
   },
 
-  marquee: ["Fashion", "Detail", "Creative process", "Graphic design", "Editorial", "Content", "Colour", "Collaboration"],
+  marquee: [
+    "Fashion",
+    "Detail",
+    "Creative process",
+    "Graphic design",
+    "Editorial",
+    "Content",
+    "Colour",
+    "Collaboration",
+  ],
 
   about: {
     heading: ["A creative mind,", "always evolving."],
@@ -53,7 +62,10 @@ const en = {
   toolkit: {
     heading: ["My creative", "toolkit."],
     groups: [
-      { title: ["Design &", "Creativity"], items: ["Canva", "Adobe Photoshop", "Adobe InDesign"] },
+      {
+        title: ["Design &", "Creativity"],
+        items: ["Canva", "Adobe Photoshop", "Adobe InDesign"],
+      },
       { title: ["Content &", "Video"], items: ["CapCut", "InShot", "Later"] },
       { title: ["Digital &", "Marketing"], items: ["WordPress", "Klaviyo"] },
       { title: ["Languages"], items: ["Dutch", "English", "French", "German"] },
