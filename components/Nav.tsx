@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { person, type Content } from "@/content";
 import { localeCookie, locales, type Locale } from "@/i18n/config";
+import ThemeToggle from "./ThemeToggle";
 
 // EN / NL links. Remembers the choice and stays on the same section.
 function LanguageSwitch({ locale, label, className = "" }: { locale: Locale; label: string; className?: string }) {
@@ -55,14 +56,14 @@ export default function Nav({ t, locale }: { t: Content["nav"]; locale: Locale }
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,padding] duration-500 ${
-        scrolled && !open ? "bg-maroon/80 py-3 backdrop-blur-md" : "py-5 md:py-7"
+        scrolled && !open ? "bg-ground/80 py-3 backdrop-blur-md" : "py-5 md:py-7"
       }`}
     >
       <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-5 md:px-12">
         <a
           href="#top"
           className={`headline relative z-50 text-lg tracking-tight transition-colors md:text-xl ${
-            open ? "text-maroon" : "text-blush"
+            open ? "text-maroon dark:text-blush" : "text-blush"
           }`}
         >
           {person.name}
@@ -89,6 +90,9 @@ export default function Nav({ t, locale }: { t: Content["nav"]; locale: Locale }
           <li>
             <LanguageSwitch locale={locale} label={t.language} className="text-white" />
           </li>
+          <li className="-ml-4">
+            <ThemeToggle label={t.theme} className="text-white/85 hover:text-blush" />
+          </li>
         </ul>
 
         <button
@@ -100,17 +104,17 @@ export default function Nav({ t, locale }: { t: Content["nav"]; locale: Locale }
           className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
         >
           <span
-            className={`h-0.5 w-7 transition-all duration-300 ${open ? "translate-y-1 rotate-45 bg-maroon" : "bg-blush"}`}
+            className={`h-0.5 w-7 transition-all duration-300 ${open ? "translate-y-1 rotate-45 bg-maroon dark:bg-blush" : "bg-blush"}`}
           />
           <span
-            className={`h-0.5 w-7 transition-all duration-300 ${open ? "-translate-y-1 -rotate-45 bg-maroon" : "bg-blush"}`}
+            className={`h-0.5 w-7 transition-all duration-300 ${open ? "-translate-y-1 -rotate-45 bg-maroon dark:bg-blush" : "bg-blush"}`}
           />
         </button>
       </nav>
 
       <div
         id="mobile-menu"
-        className={`fixed inset-0 z-40 flex flex-col justify-between bg-blush px-5 pb-10 pt-28 transition-[clip-path] duration-700 ease-editorial md:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col justify-between bg-blush px-5 dark:bg-maroon-deep pb-10 pt-28 transition-[clip-path] duration-700 ease-editorial md:hidden ${
           open ? "[clip-path:circle(150%_at_100%_0)]" : "pointer-events-none [clip-path:circle(0%_at_100%_0)]"
         }`}
         inert={!open}
@@ -118,14 +122,17 @@ export default function Nav({ t, locale }: { t: Content["nav"]; locale: Locale }
         <ul className="space-y-2">
           {t.links.map((link) => (
             <li key={link.href}>
-              <a href={link.href} onClick={() => setOpen(false)} className="headline block text-6xl text-maroon">
+              <a href={link.href} onClick={() => setOpen(false)} className="headline block text-6xl text-maroon dark:text-blush">
                 {link.label}.
               </a>
             </li>
           ))}
         </ul>
-        <div className="space-y-1 text-maroon">
-          <LanguageSwitch locale={locale} label={t.language} className="mb-6 text-lg" />
+        <div className="space-y-1 text-maroon dark:text-blush">
+          <div className="mb-6 flex items-center justify-between">
+            <LanguageSwitch locale={locale} label={t.language} className="text-lg" />
+            <ThemeToggle label={t.theme} className="-mr-2" />
+          </div>
           <a href={`mailto:${person.email}`} className="eyebrow block">
             {person.email}
           </a>

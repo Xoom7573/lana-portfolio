@@ -3,6 +3,7 @@ import { League_Spartan, Urbanist } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getContent, person, siteUrl } from "@/content";
 import { isLocale, locales } from "@/i18n/config";
+import { themeColors, themeStorageKey } from "@/theme";
 import "../globals.css";
 
 const leagueSpartan = League_Spartan({
@@ -66,16 +67,25 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#5d0e2a",
+  // ThemeToggle overrides these when a visitor picks a theme themselves.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: themeColors.light },
+    { media: "(prefers-color-scheme: dark)", color: themeColors.dark },
+  ],
 };
+
+// Runs before the page paints, so a saved or system dark theme never flashes light first.
+const themeScript = `(function(){try{var s=localStorage.getItem(${JSON.stringify(themeStorageKey)});var d=s?s==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.dataset.theme=d?"dark":"light"}catch(e){}})()`;
 
 export default async function RootLayout({ children, params }: Readonly<Params & { children: React.ReactNode }>) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={`${leagueSpartan.variable} ${urbanist.variable}`}>
+    // The theme script sets data-theme before React hydrates, so React shouldn't complain about it.
+    <html lang={lang} className={`${leagueSpartan.variable} ${urbanist.variable}`} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <noscript>
           <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
         </noscript>

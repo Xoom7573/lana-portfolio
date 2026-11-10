@@ -25,6 +25,7 @@ const en = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     language: "Language",
+    theme: "Dark mode",
   },
 
   hero: {

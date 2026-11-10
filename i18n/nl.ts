@@ -24,6 +24,7 @@ const nl: Dictionary = {
     openMenu: "Menu openen",
     closeMenu: "Menu sluiten",
     language: "Taal",
+    theme: "Donkere modus",
   },
 
   hero: {

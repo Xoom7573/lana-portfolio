@@ -8,7 +8,34 @@
   --color-rose: #e4a5bf;
   --color-paper: #f8f4f4;
 
+  /* The page background and the hero's glow. Bordeaux by default, ink in dark mode. */
+  --color-ground: #5d0e2a;
+  --color-ground-glow: #7a1c40;
+  /* Softer blush and rose for big surfaces in dark mode, so they don't glare. */
+  --color-blush-dim: #ecbfd1;
+  --color-rose-dim: #cf93ad;
+
   --ease-editorial: cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+/* Dark mode: set on <html data-theme="dark"> by the script in the layout and by ThemeToggle. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --backdrop: rgb(46 5 20 / 0.92);
+  --grain: 0.07;
+}
+
+/* "Ink night": near-black aubergine ground, bordeaux as a surface, blush stays the highlight. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-ground: #14070c;
+  --color-ground-glow: #3b0d20;
+  --color-white: #f3e6ea;
+  --color-paper: #e9e0e2;
+  --backdrop: rgb(10 3 6 / 0.94);
+  /* Overlay blending fades on near-black, so the grain needs a little more. */
+  --grain: 0.09;
 }
 
 @theme inline {
@@ -35,14 +62,14 @@
 }
 
 html {
-  background: var(--color-maroon);
+  background: var(--color-ground);
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--color-maroon);
-  color: #fff;
+  background: var(--color-ground);
+  color: var(--color-white);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -78,7 +105,7 @@ body::after {
   inset: 0;
   z-index: 90;
   pointer-events: none;
-  opacity: 0.07;
+  opacity: var(--grain);
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -198,8 +225,16 @@ html:has(dialog[open]) {
 }
 
 dialog::backdrop {
-  background: rgb(46 5 20 / 0.92);
+  background: var(--backdrop);
   backdrop-filter: blur(6px);
+}
+
+/* Theme switch: ThemeToggle wipes the new theme in as a circle growing from the
+   button, like the mobile menu. Turn off the default cross-fade so only that shows. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 @media (prefers-reduced-motion: reduce) {

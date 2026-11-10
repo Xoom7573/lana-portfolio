@@ -45,7 +45,7 @@ export default function Hero({ t }: { t: Content["hero"] }) {
     <HeroDepth id="top" className="relative isolate h-svh min-h-155 overflow-hidden">
       <div
         aria-hidden
-        className="depth [--depth:-28] absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_60%_at_68%_45%,#7a1c40_0%,transparent_70%)]"
+        className="depth [--depth:-28] absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_60%_at_68%_45%,var(--color-ground-glow)_0%,transparent_70%)]"
       />
 
       <div className="hero-stage relative mx-auto h-full max-w-[1400px] px-5 md:px-12">
