@@ -1,0 +1,6 @@
+# HTTPS in front of the app. Caddy gets and renews the certificate for $DOMAIN by itself;
+# point the domain's DNS at this server first.
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy app:3000
+}

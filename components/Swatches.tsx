@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { palette } from "@/content";
 import { fill } from "@/i18n/config";
 
 type Props = {
-  names: Record<(typeof palette)[number], string>;
+  colours: { hex: string; name: string }[];
   copyLabel: string;
   copiedLabel: string;
 };
 
-export default function Swatches({ names, copyLabel, copiedLabel }: Props) {
+export default function Swatches({ colours, copyLabel, copiedLabel }: Props) {
   const [copied, setCopied] = useState<string | null>(null);
 
   const copy = async (hex: string) => {
@@ -25,13 +24,13 @@ export default function Swatches({ names, copyLabel, copiedLabel }: Props) {
 
   return (
     <ul className="flex flex-wrap gap-5 md:gap-6">
-      {palette.map((hex) => (
+      {colours.map(({ hex, name }) => (
         <li key={hex}>
           <button
             type="button"
             onClick={() => copy(hex)}
             className="group block text-center"
-            aria-label={fill(copyLabel, { name: names[hex], hex })}
+            aria-label={fill(copyLabel, { name, hex })}
           >
             <span
               className="block h-24 w-24 border-[6px] border-white transition-transform duration-500 ease-editorial group-hover:-translate-y-1.5 group-hover:rotate-[-3deg] md:h-28 md:w-28"
@@ -40,7 +39,7 @@ export default function Swatches({ names, copyLabel, copiedLabel }: Props) {
             <span className="mt-4 block text-lg text-white/90">
               {copied === hex ? <span className="text-blush">{copiedLabel}</span> : hex}
             </span>
-            <span className="eyebrow block text-[0.65rem] text-white/50">{names[hex]}</span>
+            <span className="eyebrow block text-[0.65rem] text-white/50">{name}</span>
           </button>
         </li>
       ))}

@@ -77,7 +77,7 @@ export default function Gallery({ pages, title, labels, gridClassName, sizes }: 
                   src={p.src}
                   width={p.width}
                   height={p.height}
-                  alt={fill(labels.pageAlt, { title, page: p.label })}
+                  alt={p.alt || fill(labels.pageAlt, { title, page: p.label })}
                   sizes={sizes}
                   className="h-full w-full object-cover object-top transition-transform duration-700 ease-editorial group-hover:scale-[1.03]"
                 />
@@ -110,7 +110,7 @@ export default function Gallery({ pages, title, labels, gridClassName, sizes }: 
               <Image
                 key={page.full.src}
                 {...page.full}
-                alt={fill(labels.pageAlt, { title, page: page.label })}
+                alt={page.alt || fill(labels.pageAlt, { title, page: page.label })}
                 quality={90}
                 sizes={viewSizes}
                 className="fade-in h-auto w-full bg-white shadow-2xl"

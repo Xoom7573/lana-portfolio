@@ -1,13 +1,14 @@
 import Gallery from "./Gallery";
 import Reveal from "./Reveal";
-import type { Content } from "@/content";
+import type { Content, ProjectContent } from "@/content";
 import { fill } from "@/i18n/config";
 
+type Props = { project: ProjectContent; t: Content };
+
 // Slide 5: sticky project intro on the left, brochure spreads on paper to the right.
-export function SwapClosetProject({ t }: { t: Content }) {
-  const project = t.swapCloset;
+function StickyProject({ project, t }: Props) {
   return (
-    <section id="swapcloset" className="px-5 py-24 md:px-12 md:py-36">
+    <section id={project.slug} className="px-5 py-24 md:px-12 md:py-36">
       <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,9fr)] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <Reveal>
@@ -23,7 +24,7 @@ export function SwapClosetProject({ t }: { t: Content }) {
             <p className="mt-10 max-w-xs text-xl leading-snug text-white/90 md:text-2xl lg:mt-24">
               {project.description}
             </p>
-            <p className="eyebrow mt-8 text-blush/80">{fill(t.projects.pageCount, { n: project.pages.length })}</p>
+            <p className="eyebrow mt-8 text-blush/80">{fill(t.projectLabels.pageCount, { n: project.pages.length })}</p>
           </Reveal>
         </div>
 
@@ -43,21 +44,22 @@ export function SwapClosetProject({ t }: { t: Content }) {
   );
 }
 
-// Slide 6: the full Líkami training guide, all 27 pages, in the visitor's language.
-export function LikamiProject({ t }: { t: Content }) {
-  const project = t.likami;
+// Slide 6: heading on top, then every page in a wide grid (the full Líkami guide).
+function GridProject({ project, t }: Props) {
   return (
-    <section id="likami" className="px-5 py-24 md:px-12 md:py-36">
+    <section id={project.slug} className="px-5 py-24 md:px-12 md:py-36">
       <div className="mx-auto max-w-[1400px]">
         <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <h2 className="headline flex flex-wrap items-baseline gap-x-[0.45em] text-[clamp(3.6rem,8vw,6.75rem)] text-blush">
             <span>{project.number}</span>
-            <span>{project.title}</span>
+            {project.title.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
           </h2>
           <div className="lg:pb-3 lg:text-right">
             <p className="text-xl font-bold md:text-2xl">{project.discipline}</p>
             <p className="mt-1 text-lg text-white/75">{project.description}</p>
-            <p className="eyebrow mt-4 text-blush/80">{fill(t.projects.pageCount, { n: project.pages.length })}</p>
+            <p className="eyebrow mt-4 text-blush/80">{fill(t.projectLabels.pageCount, { n: project.pages.length })}</p>
           </div>
         </Reveal>
 
@@ -75,4 +77,9 @@ export function LikamiProject({ t }: { t: Content }) {
       </div>
     </section>
   );
+}
+
+// Each project picks its layout in the CMS.
+export default function ProjectSection(props: Props) {
+  return props.project.layout === "grid" ? <GridProject {...props} /> : <StickyProject {...props} />;
 }

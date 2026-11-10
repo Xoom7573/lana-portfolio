@@ -4,20 +4,22 @@ import Reveal from "./Reveal";
 import type { Content } from "@/content";
 
 // The "Portfolio" cover is a miniature of the hero, as on slide 4.
-function PortfolioCover({ words }: { words: string[] }) {
+function PortfolioCover({ words, portrait }: { words: string[]; portrait: Content["work"]["portfolio"]["portrait"] }) {
   return (
     <div className="relative isolate aspect-[1/1.414] overflow-hidden bg-maroon-soft">
       <span aria-hidden className="headline absolute -left-[46%] top-[42%] z-0 text-[5.6rem] leading-[0.86] text-blush sm:text-[7rem] lg:text-[6.4rem]">
         {words[0]}
       </span>
-      <Image
-        src="/images/lana-cutout.webp"
-        alt=""
-        width={910}
-        height={1410}
-        sizes="(min-width: 1024px) 28vw, 80vw"
-        className="absolute bottom-0 left-[12%] z-10 h-[92%] w-auto max-w-none transition-transform duration-700 ease-editorial group-hover:scale-[1.04]"
-      />
+      {portrait && (
+        <Image
+          src={portrait.src}
+          alt=""
+          width={portrait.width}
+          height={portrait.height}
+          sizes="(min-width: 1024px) 28vw, 80vw"
+          className="absolute bottom-0 left-[12%] z-10 h-[92%] w-auto max-w-none transition-transform duration-700 ease-editorial group-hover:scale-[1.04]"
+        />
+      )}
       <span aria-hidden className="headline absolute -left-[52%] top-[64%] z-20 text-[5.6rem] leading-[0.86] text-blush sm:text-[7rem] lg:text-[6.4rem]">
         {words[1]}
       </span>
@@ -40,25 +42,20 @@ function CoverImage({ src, width, height, alt }: { src: string; width: number; h
   );
 }
 
+// One card per project, in the CMS's order, then the card for this portfolio itself.
 function projectList(t: Content): { href: string; label: string; kind: string; cover: ReactNode }[] {
   return [
-    {
-      href: "#swapcloset",
-      label: t.swapCloset.name,
-      kind: t.swapCloset.discipline,
-      cover: <CoverImage {...t.swapCloset.cover} alt={t.work.swapClosetCoverAlt} />,
-    },
-    {
-      href: "#likami",
-      label: t.likami.name,
-      kind: t.likami.discipline,
-      cover: <CoverImage {...t.likami.cover} alt={t.work.likamiCoverAlt} />,
-    },
+    ...t.projects.map((project) => ({
+      href: `#${project.slug}`,
+      label: project.name,
+      kind: project.discipline,
+      cover: project.cover ? <CoverImage {...project.cover} /> : <div className="aspect-[1/1.414] bg-white" />,
+    })),
     {
       href: "#design",
-      label: "Portfolio",
-      kind: t.work.portfolioKind,
-      cover: <PortfolioCover words={t.work.portfolioCover} />,
+      label: t.work.portfolio.label,
+      kind: t.work.portfolio.kind,
+      cover: <PortfolioCover words={t.work.portfolio.cover} portrait={t.work.portfolio.portrait} />,
     },
   ];
 }
@@ -77,7 +74,7 @@ export default function SelectedWork({ t }: { t: Content }) {
 
         <ul className="mt-14 grid gap-14 sm:grid-cols-2 md:mt-20 lg:grid-cols-3 lg:gap-12">
           {projects.map((project, i) => (
-            <Reveal as="li" key={project.label} delay={i * 140} className={i === 1 ? "lg:mt-16" : ""}>
+            <Reveal as="li" key={project.href} delay={i * 140} className={i % 3 === 1 ? "lg:mt-16" : ""}>
               <a href={project.href} className="group block" data-cursor="view">
                 <div className="relative border-[6px] border-white transition-[border-color,transform,box-shadow] duration-500 ease-editorial group-hover:-translate-y-2 group-hover:border-blush group-hover:shadow-[0_40px_70px_-30px_rgb(0_0_0/0.7)]">
                   {project.cover}

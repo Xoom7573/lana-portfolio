@@ -1,8 +1,7 @@
 import Image from "next/image";
 import HeroDepth from "./HeroDepth";
 import Parallax from "./Parallax";
-import { person, type Content } from "@/content";
-import { fill } from "@/i18n/config";
+import type { Content } from "@/content";
 
 function Letters({ word, base }: { word: string; base: number }) {
   return word.split("").map((char, i) => (
@@ -54,15 +53,17 @@ export default function Hero({ t }: { t: Content["hero"] }) {
           className="hero-hover absolute bottom-0 right-[-14%] z-10 h-[64%] w-auto sm:right-[2%] sm:h-[72%] md:h-[86%] lg:right-[10%]"
         >
           <div className="mask-reveal h-full" style={{ "--delay": "350ms" } as React.CSSProperties}>
-            <Image
-              src="/images/lana-cutout.webp"
-              alt={fill(t.portraitAlt, { name: person.name })}
-              width={910}
-              height={1410}
-              priority
-              sizes="(min-width: 768px) 45vw, 90vw"
-              className="h-full w-auto max-w-none object-contain object-bottom"
-            />
+            {t.portrait && (
+              <Image
+                src={t.portrait.src}
+                alt={t.portrait.alt}
+                width={t.portrait.width}
+                height={t.portrait.height}
+                priority
+                sizes="(min-width: 768px) 45vw, 90vw"
+                className="h-full w-auto max-w-none object-contain object-bottom"
+              />
+            )}
           </div>
         </Parallax>
 

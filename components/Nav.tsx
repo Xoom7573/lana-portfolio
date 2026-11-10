@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { person, type Content } from "@/content";
+import type { Content, Person } from "@/content";
 import { localeCookie, locales, type Locale } from "@/i18n/config";
 
 // EN / NL links. Remembers the choice and stays on the same section.
@@ -34,7 +34,7 @@ function LanguageSwitch({ locale, label, className = "" }: { locale: Locale; lab
   );
 }
 
-export default function Nav({ t, locale }: { t: Content["nav"]; locale: Locale }) {
+export default function Nav({ t, locale, person }: { t: Content["nav"]; locale: Locale; person: Person }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 

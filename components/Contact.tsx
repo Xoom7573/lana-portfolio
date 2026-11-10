@@ -1,7 +1,7 @@
 import Reveal from "./Reveal";
-import { person, type Content } from "@/content";
+import type { Content, Person } from "@/content";
 
-export default function Contact({ t }: { t: Content["contact"] }) {
+export default function Contact({ t, person }: { t: Content["contact"]; person: Person }) {
   const phoneDisplay = person.phone.replace(/^(\+\d{2})(\d{3})(\d{2})(\d{2})(\d{2})$/, "$1 $2 $3 $4 $5");
 
   return (

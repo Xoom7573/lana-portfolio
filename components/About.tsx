@@ -1,15 +1,18 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import type { Content } from "@/content";
+import type { Content, Segment } from "@/content";
 
-function Highlighted({ text }: { text: string }) {
-  return text.split(/\*\*(.+?)\*\*/g).map((part, i) =>
-    i % 2 ? (
+// Bold text from the CMS is highlighted in pink.
+function Highlighted({ segments }: { segments: Segment[] }) {
+  return segments.map((segment, i) =>
+    "br" in segment ? (
+      <br key={i} />
+    ) : segment.bold ? (
       <strong key={i} className="font-bold text-blush">
-        {part}
+        {segment.text}
       </strong>
     ) : (
-      part
+      segment.text
     ),
   );
 }
@@ -71,7 +74,7 @@ export default function About({ t }: { t: Content["about"] }) {
           {t.paragraphs.map((p, i) => (
             <Reveal key={i} delay={i * 60}>
               <p>
-                <Highlighted text={p} />
+                <Highlighted segments={p} />
               </p>
             </Reveal>
           ))}
