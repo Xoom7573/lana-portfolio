@@ -56,7 +56,8 @@ export default function Hero({ t }: { t: Content["hero"] }) {
         <a
           href="#about"
           aria-label={t.scrollLabel}
-          className="fade-in absolute bottom-6 left-1/2 z-30 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/70 transition-colors hover:text-blush md:flex"
+          // The soft shadow keeps it readable where it overlaps the light photo.
+          className="fade-in absolute bottom-6 left-1/2 z-30 hidden -translate-x-1/2 flex-col items-center gap-2 text-white drop-shadow-[0_1px_4px_rgb(0_0_0/0.55)] transition-colors hover:text-blush md:flex"
           style={{ "--delay": "1500ms" } as React.CSSProperties}
         >
           <span className="eyebrow text-[0.65rem]">{t.scroll}</span>
