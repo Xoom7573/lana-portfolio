@@ -100,11 +100,11 @@ export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
           touchX.current = null;
         }}
         aria-label={`${title} pages`}
-        className="m-0 h-dvh max-h-none w-screen max-w-none bg-transparent p-0 text-white backdrop:bg-transparent"
+        className="m-0 h-dvh max-h-none w-screen max-w-none cursor-pointer bg-transparent p-0 text-white backdrop:bg-transparent"
       >
         {page && (
           <div className="pointer-events-none flex h-full flex-col items-center justify-center gap-5 px-4 py-16">
-            <div className="pointer-events-auto relative" style={{ width: viewWidth(page) }}>
+            <div className="pointer-events-auto relative cursor-default" style={{ width: viewWidth(page) }}>
               <Image
                 key={page.full.src}
                 {...page.full}
@@ -115,7 +115,7 @@ export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
                 style={{ "--delay": "0ms" } as React.CSSProperties}
               />
             </div>
-            <p className="eyebrow pointer-events-auto text-blush">
+            <p className="eyebrow pointer-events-auto cursor-default text-blush">
               {title} · {String(index! + 1).padStart(2, "0")} / {String(pages.length).padStart(2, "0")}
             </p>
 
