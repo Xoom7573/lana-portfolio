@@ -25,18 +25,6 @@ export default function Hero({ t }: { t: Content["hero"] }) {
       />
 
       <div className="relative mx-auto h-full max-w-[1400px] px-5 md:px-12">
-        <p className="fade-in absolute left-5 top-28 text-base text-white/90 md:left-12 md:top-32 md:text-xl" style={{ "--delay": "900ms" } as React.CSSProperties}>
-          {fill(t.presentedBy, { name: person.name })}
-        </p>
-
-        <div
-          className="fade-in absolute right-5 top-28 hidden text-right md:right-12 md:top-32 md:block"
-          style={{ "--delay": "1100ms" } as React.CSSProperties}
-        >
-          <p className="eyebrow text-blush">{fill(t.year, { year: new Date().getFullYear() })}</p>
-          <p className="eyebrow mt-1 text-white/60">{t.tagline}</p>
-        </div>
-
         <Parallax
           speed={0.12}
           className="absolute bottom-0 right-[-14%] z-10 h-[64%] w-auto sm:right-[2%] sm:h-[72%] md:h-[86%] lg:right-[10%]"

@@ -25,9 +25,6 @@ const en = {
   },
 
   hero: {
-    presentedBy: "Presented by {name}",
-    year: "Portfolio — {year}",
-    tagline: "Design · Content · Fashion",
     title: "Creative Portfolio",
     words: ["CREATIVE", "PORTFOLIO"],
     portraitAlt: "Portrait of {name}",

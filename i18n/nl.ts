@@ -26,9 +26,6 @@ const nl: Dictionary = {
   },
 
   hero: {
-    presentedBy: "Door {name}",
-    year: "Portfolio — {year}",
-    tagline: "Design · Content · Mode",
     title: "Creatief portfolio",
     words: ["CREATIEF", "PORTFOLIO"],
     portraitAlt: "Portret van {name}",
