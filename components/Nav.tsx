@@ -1,9 +1,40 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { navLinks, person } from "@/content";
+import { person, type Content } from "@/content";
+import { localeCookie, locales, type Locale } from "@/i18n/config";
 
-export default function Nav() {
+// EN / NL links. Remembers the choice and stays on the same section.
+function LanguageSwitch({ locale, label, className = "" }: { locale: Locale; label: string; className?: string }) {
+  return (
+    <div role="group" aria-label={label} className={`eyebrow flex items-center gap-1.5 ${className}`}>
+      {locales.map((l, i) => (
+        <span key={l} className="flex items-center gap-1.5">
+          {i > 0 && (
+            <span aria-hidden className="opacity-40">
+              /
+            </span>
+          )}
+          <a
+            href={`/${l}`}
+            hrefLang={l}
+            lang={l}
+            aria-current={l === locale ? "true" : undefined}
+            onClick={(e) => {
+              document.cookie = `${localeCookie}=${l}; path=/; max-age=31536000; samesite=lax`;
+              e.currentTarget.href = `/${l}${window.location.hash}`;
+            }}
+            className={`py-2 transition-opacity hover:opacity-100 ${l === locale ? "opacity-100" : "opacity-50"}`}
+          >
+            {l.toUpperCase()}
+          </a>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export default function Nav({ t, locale }: { t: Content["nav"]; locale: Locale }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -39,7 +70,7 @@ export default function Nav() {
         </a>
 
         <ul className="hidden items-center gap-10 md:flex">
-          {navLinks.map((link) => (
+          {t.links.map((link) => (
             <li key={link.href}>
               <a href={link.href} className="eyebrow group relative py-2 text-white/85 transition-colors hover:text-blush">
                 {link.label}
@@ -52,8 +83,11 @@ export default function Nav() {
               href={`mailto:${person.email}`}
               className="eyebrow rounded-full border border-blush/60 px-5 py-2.5 text-blush transition-colors hover:bg-blush hover:text-maroon"
             >
-              Let&apos;s talk
+              {t.cta}
             </a>
+          </li>
+          <li>
+            <LanguageSwitch locale={locale} label={t.language} className="text-white" />
           </li>
         </ul>
 
@@ -62,7 +96,7 @@ export default function Nav() {
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
           aria-controls="mobile-menu"
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? t.closeMenu : t.openMenu}
           className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
         >
           <span
@@ -82,7 +116,7 @@ export default function Nav() {
         inert={!open}
       >
         <ul className="space-y-2">
-          {navLinks.map((link) => (
+          {t.links.map((link) => (
             <li key={link.href}>
               <a href={link.href} onClick={() => setOpen(false)} className="headline block text-6xl text-maroon">
                 {link.label}.
@@ -91,6 +125,7 @@ export default function Nav() {
           ))}
         </ul>
         <div className="space-y-1 text-maroon">
+          <LanguageSwitch locale={locale} label={t.language} className="mb-6 text-lg" />
           <a href={`mailto:${person.email}`} className="eyebrow block">
             {person.email}
           </a>

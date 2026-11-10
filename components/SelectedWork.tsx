@@ -1,14 +1,14 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import Reveal from "./Reveal";
-import { likami, swapCloset } from "@/content";
+import type { Content } from "@/content";
 
 // The "Portfolio" cover is a miniature of the hero, as on slide 4.
-function PortfolioCover() {
+function PortfolioCover({ words }: { words: string[] }) {
   return (
     <div className="relative isolate aspect-[1/1.414] overflow-hidden bg-maroon-soft">
       <span aria-hidden className="headline absolute -left-[46%] top-[42%] z-0 text-[5.6rem] leading-[0.86] text-blush sm:text-[7rem] lg:text-[6.4rem]">
-        Creative
+        {words[0]}
       </span>
       <Image
         src="/images/lana-cutout.webp"
@@ -19,7 +19,7 @@ function PortfolioCover() {
         className="absolute bottom-0 left-[12%] z-10 h-[92%] w-auto max-w-none transition-transform duration-700 ease-editorial group-hover:scale-[1.04]"
       />
       <span aria-hidden className="headline absolute -left-[52%] top-[64%] z-20 text-[5.6rem] leading-[0.86] text-blush sm:text-[7rem] lg:text-[6.4rem]">
-        Portfolio
+        {words[1]}
       </span>
     </div>
   );
@@ -40,35 +40,38 @@ function CoverImage({ src, width, height, alt }: { src: string; width: number; h
   );
 }
 
-const projects: { href: string; label: string; kind: string; cover: ReactNode }[] = [
-  {
-    href: "#swapcloset",
-    label: "SwapCloset",
-    kind: swapCloset.discipline,
-    cover: <CoverImage {...swapCloset.cover} alt="SwapCloset brochure cover" />,
-  },
-  {
-    href: "#likami",
-    label: "Líkami",
-    kind: likami.discipline,
-    cover: <CoverImage {...likami.cover} alt="Líkami sales training cover" />,
-  },
-  {
-    href: "#design",
-    label: "Portfolio",
-    kind: "Personal Branding",
-    cover: <PortfolioCover />,
-  },
-];
+function projectList(t: Content): { href: string; label: string; kind: string; cover: ReactNode }[] {
+  return [
+    {
+      href: "#swapcloset",
+      label: t.swapCloset.name,
+      kind: t.swapCloset.discipline,
+      cover: <CoverImage {...t.swapCloset.cover} alt={t.work.swapClosetCoverAlt} />,
+    },
+    {
+      href: "#likami",
+      label: t.likami.name,
+      kind: t.likami.discipline,
+      cover: <CoverImage {...t.likami.cover} alt={t.work.likamiCoverAlt} />,
+    },
+    {
+      href: "#design",
+      label: "Portfolio",
+      kind: t.work.portfolioKind,
+      cover: <PortfolioCover words={t.work.portfolioCover} />,
+    },
+  ];
+}
 
-export default function SelectedWork() {
+export default function SelectedWork({ t }: { t: Content }) {
+  const projects = projectList(t);
   return (
     <section id="work" className="px-5 py-28 md:px-12 md:py-40">
       <div className="mx-auto max-w-[1400px]">
         <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <h2 className="headline text-[clamp(3.2rem,9vw,8.5rem)] text-blush">Selected work.</h2>
+          <h2 className="headline text-[clamp(3.2rem,9vw,8.5rem)] text-blush">{t.work.heading}</h2>
           <p className="eyebrow text-white/85 md:pb-4">
-            01-03 / Creative projects
+            {t.work.eyebrow}
           </p>
         </Reveal>
 

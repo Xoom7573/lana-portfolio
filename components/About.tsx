@@ -1,6 +1,6 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { about } from "@/content";
+import type { Content } from "@/content";
 
 function Highlighted({ text }: { text: string }) {
   return text.split(/\*\*(.+?)\*\*/g).map((part, i) =>
@@ -14,8 +14,7 @@ function Highlighted({ text }: { text: string }) {
   );
 }
 
-function Sticker() {
-  const ring = "CREATIVE ✦ CURIOUS ✦ DETAIL-DRIVEN ✦ FASHION ✦ ";
+function Sticker({ ring, center }: { ring: string; center: string }) {
   return (
     <div aria-hidden className="relative h-32 w-32 md:h-40 md:w-40">
       <svg viewBox="0 0 200 200" className="spin-slow absolute inset-0 h-full w-full">
@@ -31,25 +30,25 @@ function Sticker() {
         </text>
       </svg>
       <span className="headline absolute inset-0 flex items-center justify-center text-3xl text-maroon md:text-4xl">
-        Hi!
+        {center}
       </span>
     </div>
   );
 }
 
-export default function About() {
+export default function About({ t }: { t: Content["about"] }) {
   return (
     <section id="about" className="relative px-5 py-32 md:px-12 md:py-44">
       <div className="mx-auto max-w-[1400px]">
         <div className="relative mx-auto max-w-6xl text-center">
           <div className="mb-10 flex justify-center md:absolute md:-top-24 md:right-0 md:mb-0 md:rotate-12 lg:-top-20">
             <Reveal delay={300}>
-              <Sticker />
+              <Sticker ring={t.sticker} center={t.stickerCenter} />
             </Reveal>
           </div>
           <Reveal>
             <SectionHeading
-              lines={["A creative mind,", "always evolving."]}
+              lines={[t.heading[0], t.heading[1]]}
               className="text-[clamp(2.4rem,7.2vw,6.25rem)]"
             />
           </Reveal>
@@ -57,9 +56,9 @@ export default function About() {
 
         <div className="mx-auto mt-16 max-w-3xl space-y-7 text-center text-lg leading-relaxed text-white/90 md:mt-20 md:text-xl md:leading-relaxed">
           <Reveal>
-            <p className="headline text-2xl text-blush md:text-3xl">{about.greeting}</p>
+            <p className="headline text-2xl text-blush md:text-3xl">{t.greeting}</p>
           </Reveal>
-          {about.paragraphs.map((p, i) => (
+          {t.paragraphs.map((p, i) => (
             <Reveal key={i} delay={i * 60}>
               <p>
                 <Highlighted text={p} />

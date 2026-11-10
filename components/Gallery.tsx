@@ -2,11 +2,13 @@
 
 import Image, { getImageProps } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Page } from "@/content";
+import type { Content, Page } from "@/content";
+import { fill } from "@/i18n/config";
 
 type Props = {
   pages: Page[];
   title: string;
+  labels: Content["gallery"];
   gridClassName: string;
   sizes: string;
 };
@@ -19,7 +21,7 @@ const viewWidth = (page: Page) =>
   `min(${Math.min(MAX_VIEW_WIDTH, page.full.width)}px, 88vw, calc((100dvh - 10rem) * ${page.full.width / page.full.height}))`;
 
 // A grid of brochure pages that opens into a keyboard/swipe lightbox.
-export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
+export default function Gallery({ pages, title, labels, gridClassName, sizes }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState<number | null>(null);
   const touchX = useRef<number | null>(null);
@@ -68,14 +70,14 @@ export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
               type="button"
               onClick={() => open(i)}
               className="group block w-full text-left"
-              aria-label={`Open ${title}, ${p.label}`}
+              aria-label={fill(labels.open, { title, page: p.label })}
             >
               <span className="block aspect-[1/1.414] overflow-hidden bg-white shadow-[0_1px_2px_rgb(93_14_42/0.08)] transition-[transform,box-shadow] duration-500 ease-editorial group-hover:-translate-y-1.5 group-hover:shadow-[0_18px_40px_-12px_rgb(93_14_42/0.45)]">
                 <Image
                   src={p.src}
                   width={p.width}
                   height={p.height}
-                  alt={`${title} — ${p.label}`}
+                  alt={fill(labels.pageAlt, { title, page: p.label })}
                   sizes={sizes}
                   className="h-full w-full object-cover object-top transition-transform duration-700 ease-editorial group-hover:scale-[1.03]"
                 />
@@ -99,7 +101,7 @@ export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
           if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
           touchX.current = null;
         }}
-        aria-label={`${title} pages`}
+        aria-label={fill(labels.dialog, { title })}
         className="m-0 h-dvh max-h-none w-screen max-w-none cursor-pointer bg-transparent p-0 text-white backdrop:bg-transparent"
       >
         {page && (
@@ -108,7 +110,7 @@ export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
               <Image
                 key={page.full.src}
                 {...page.full}
-                alt={`${title} — ${page.label}`}
+                alt={fill(labels.pageAlt, { title, page: page.label })}
                 quality={90}
                 sizes={viewSizes}
                 className="fade-in h-auto w-full bg-white shadow-2xl"
@@ -125,12 +127,12 @@ export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
               autoFocus
               className="eyebrow pointer-events-auto absolute right-5 top-5 rounded-full border border-blush/50 px-4 py-2 text-blush transition-colors hover:bg-blush hover:text-maroon"
             >
-              Close ✕
+              {labels.close}
             </button>
             <button
               type="button"
               onClick={() => step(-1)}
-              aria-label="Previous page"
+              aria-label={labels.previous}
               className="headline pointer-events-auto absolute left-3 top-1/2 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-blush text-2xl text-maroon transition-transform hover:scale-110 sm:flex md:left-8"
             >
               ←
@@ -138,7 +140,7 @@ export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
             <button
               type="button"
               onClick={() => step(1)}
-              aria-label="Next page"
+              aria-label={labels.next}
               className="headline pointer-events-auto absolute right-3 top-1/2 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-blush text-2xl text-maroon transition-transform hover:scale-110 sm:flex md:right-8"
             >
               →

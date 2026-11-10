@@ -1,9 +1,7 @@
-import { marqueeWords } from "@/content";
-
-export default function Marquee() {
+export default function Marquee({ words }: { words: string[] }) {
   const row = (hidden: boolean) => (
     <ul aria-hidden={hidden} className="flex shrink-0 items-center">
-      {marqueeWords.map((word) => (
+      {words.map((word) => (
         <li key={word} className="flex items-center">
           <span className="headline px-6 text-3xl md:px-10 md:text-5xl">{word}</span>
           <span className="text-xl text-maroon/50 md:text-3xl">✦</span>

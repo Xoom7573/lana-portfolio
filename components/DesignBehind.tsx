@@ -3,6 +3,7 @@ import path from "node:path";
 import Image from "next/image";
 import Reveal from "./Reveal";
 import Swatches from "./Swatches";
+import type { Content } from "@/content";
 
 // Collage slots measured from slide 7, listed bottom layer first.
 const slots = [
@@ -63,39 +64,39 @@ function Moodboard() {
   return null;
 }
 
-export default function DesignBehind() {
+export default function DesignBehind({ t }: { t: Content["design"] }) {
   return (
     <section id="design" className="overflow-hidden px-5 py-24 md:px-12 md:py-36">
       <div className="mx-auto max-w-[1400px]">
         <Reveal>
           <h2 className="headline flex flex-col gap-x-[0.5em] text-[clamp(3rem,7vw,6.25rem)] text-blush sm:flex-row">
             <span>03</span>
-            <span>The design behind this portfolio.</span>
+            <span>{t.heading}</span>
           </h2>
         </Reveal>
 
         <div className="mt-16 grid items-center gap-20 md:mt-20 lg:grid-cols-2 lg:gap-12">
           <div className="space-y-16 lg:pl-[7%]">
             <Reveal>
-              <p className="eyebrow mb-6 text-white/60">Colour palette</p>
-              <Swatches />
+              <p className="eyebrow mb-6 text-white/60">{t.palette}</p>
+              <Swatches names={t.colours} copyLabel={t.copy} copiedLabel={t.copied} />
             </Reveal>
 
             <Reveal delay={120}>
-              <p className="eyebrow mb-6 text-white/60">Typography</p>
+              <p className="eyebrow mb-6 text-white/60">{t.typography}</p>
               <dl className="space-y-5">
                 <div className="flex items-center gap-10 border-b border-white/15 pb-5">
                   <dt className="headline w-24 text-6xl text-blush">AA</dt>
                   <dd>
                     <span className="headline block text-2xl text-blush md:text-3xl">League Spartan</span>
-                    <span className="text-sm text-white/60">Headlines — bold, uppercase, confident</span>
+                    <span className="text-sm text-white/60">{t.headlineFont}</span>
                   </dd>
                 </div>
                 <div className="flex items-center gap-10">
                   <dt className="w-24 text-6xl font-normal">Aa</dt>
                   <dd>
                     <span className="block text-2xl md:text-3xl">Hero</span>
-                    <span className="text-sm text-white/60">Body copy — light, open, friendly</span>
+                    <span className="text-sm text-white/60">{t.bodyFont}</span>
                   </dd>
                 </div>
               </dl>
@@ -104,7 +105,7 @@ export default function DesignBehind() {
 
           <Reveal delay={200}>
             <div className="mx-auto max-w-[560px]">
-              <p className="eyebrow mb-8 text-white/60">Moodboard</p>
+              <p className="eyebrow mb-8 text-white/60">{t.moodboard}</p>
               <Moodboard />
             </div>
           </Reveal>
