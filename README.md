@@ -41,9 +41,9 @@ Run it again whenever you add or change an image, then restart the dev server.
 | SwapCloset pages | `images/my_work/swapcloset/swapcloset_<n>.png` |
 | Líkami pages | `images/my_work/likami/en/<n>.png` |
 
-**Project pages:** number the files in order (`1.png`, `2.png`, … or `name_1.png`, `name_2.png`, …). A landscape file is treated as a two-page spread and split in half. If a page's file is missing, the script uses a lower-quality crop from the overview image (`images/foto_swapcloset.png` or `images/foto_likami.png`) and says so in its output.
+**Project pages:** name each file after its page number (`6.png` or `swapcloset_6.png`). Name a two-page spread after both of its pages (`swapcloset_2_3.png`); the script cuts it in half, left page first. If a page's file is missing, the script uses a lower-quality crop from the overview image (`images/foto_swapcloset.png` or `images/foto_likami.png`) and says so in its output.
 
-The list of projects, page counts and spreads is at the top of [`scripts/prepare-images.mjs`](scripts/prepare-images.mjs). A new project needs an entry there and its own section on the page.
+The list of projects and their page counts is at the top of [`scripts/prepare-images.mjs`](scripts/prepare-images.mjs). A new project needs an entry there and its own section on the page.
 
 ## Project structure
 

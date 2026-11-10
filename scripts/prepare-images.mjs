@@ -35,7 +35,8 @@ await sharp(src("image-based-portfolio/slide_01.png"))
 // Project pages.
 //
 // High-res exports live in images/my_work/<project>/ (or a language subfolder),
-// one file per page or per spread, numbered like "1.png" or "swapcloset_1.png".
+// named after the page they hold: "6.png" or "swapcloset_6.png". A two-page
+// spread is named after both pages ("swapcloset_2_3.png") and cut in half.
 // Pages without a high-res export fall back to a crop of the overview image.
 
 // Crop page n (1-based) out of an overview image laid out as a grid of pages.
@@ -49,8 +50,6 @@ const projects = {
   swapcloset: {
     dir: "swapcloset",
     pages: 8,
-    // Files are: cover, spreads 2–3, 4–5, 6–7, and page 8.
-    pagesPerFile: [1, 2, 2, 2, 1],
     // 4 x 2 grid of pages, bounds measured from the background gaps.
     fallback: gridCrop(
       "images/foto_swapcloset.png",
@@ -74,22 +73,30 @@ const projects = {
 const workDir = path.resolve(root, process.env.MY_WORK_DIR ?? "images/my_work");
 
 // Map page number -> { file, half } where half is "left", "right" or null.
-function findHighRes({ dir, pages, pagesPerFile }) {
+function findHighRes({ dir, pages }) {
   const folder = path.join(workDir, dir);
-  const files = new Map();
-  if (fs.existsSync(folder)) {
-    for (const f of fs.readdirSync(folder)) {
-      const m = f.match(/(?:^|[_\s-])(\d+)\.(png|jpe?g|webp)$/i);
-      if (m) files.set(Number(m[1]), path.join(folder, f));
-    }
-  }
   const sources = new Map();
-  let page = 1;
-  for (let fileNo = 1; page <= pages; fileNo++) {
-    const count = pagesPerFile?.[fileNo - 1] ?? 1;
-    const file = files.get(fileNo);
-    for (let i = 0; i < count && page <= pages; i++, page++) {
-      if (file) sources.set(page, { file, half: count === 2 ? (i ? "right" : "left") : null });
+  if (!fs.existsSync(folder)) return sources;
+
+  const claim = (page, source) => {
+    if (page < 1 || page > pages) return console.warn(`  ! ${path.basename(source.file)}: page ${page} is out of range, skipped`);
+    if (sources.has(page)) {
+      console.warn(`  ! page ${page} is in both ${path.basename(sources.get(page).file)} and ${path.basename(source.file)}; using the first`);
+      return;
+    }
+    sources.set(page, source);
+  };
+
+  for (const f of fs.readdirSync(folder).sort()) {
+    const m = f.match(/(?:^|[_\s-])(\d+)(?:_(\d+))?\.(png|jpe?g|webp)$/i);
+    if (!m) continue;
+    const file = path.join(folder, f);
+    const first = Number(m[1]);
+    if (m[2]) {
+      claim(first, { file, half: "left" });
+      claim(Number(m[2]), { file, half: "right" });
+    } else {
+      claim(first, { file, half: null });
     }
   }
   return sources;
@@ -98,8 +105,12 @@ function findHighRes({ dir, pages, pagesPerFile }) {
 async function highResPage({ file, half }) {
   const image = sharp(file);
   const { width, height } = await image.metadata();
-  if (!half) return image;
-  if (width < height * 1.2) throw new Error(`${path.basename(file)} should be a spread but isn't landscape`);
+  const landscape = width > height * 1.2;
+  if (!half) {
+    if (landscape) console.warn(`  ! ${path.basename(file)} looks like a spread; name it after both pages (e.g. name_2_3.png) to split it`);
+    return image;
+  }
+  if (!landscape) throw new Error(`${path.basename(file)} is named as a two-page spread but isn't landscape`);
   const leftWidth = Math.floor(width / 2);
   return image.extract(
     half === "left"
