@@ -49,6 +49,17 @@ body {
   overflow-x: clip;
 }
 
+/* Tailwind v4 dropped the pointer cursor on buttons; bring it back for everything clickable. */
+@layer base {
+  a[href],
+  button:not(:disabled),
+  [role="button"],
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+}
+
 ::selection {
   background: var(--color-blush);
   color: var(--color-maroon);

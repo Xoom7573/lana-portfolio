@@ -1,0 +1,461 @@
+{
+  "swapcloset": [
+    {
+      "thumb": {
+        "src": "/work/swapcloset/page-01.webp",
+        "width": 600,
+        "height": 846
+      },
+      "full": {
+        "src": "/work/swapcloset/full/page-01.webp",
+        "width": 1600,
+        "height": 2257
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/swapcloset/page-02.webp",
+        "width": 600,
+        "height": 842
+      },
+      "full": {
+        "src": "/work/swapcloset/full/page-02.webp",
+        "width": 1600,
+        "height": 2244
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/swapcloset/page-03.webp",
+        "width": 600,
+        "height": 842
+      },
+      "full": {
+        "src": "/work/swapcloset/full/page-03.webp",
+        "width": 1600,
+        "height": 2244
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/swapcloset/page-04.webp",
+        "width": 600,
+        "height": 842
+      },
+      "full": {
+        "src": "/work/swapcloset/full/page-04.webp",
+        "width": 1600,
+        "height": 2244
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/swapcloset/page-05.webp",
+        "width": 600,
+        "height": 842
+      },
+      "full": {
+        "src": "/work/swapcloset/full/page-05.webp",
+        "width": 1600,
+        "height": 2244
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/swapcloset/page-06.webp",
+        "width": 600,
+        "height": 846
+      },
+      "full": {
+        "src": "/work/swapcloset/page-06.webp",
+        "width": 600,
+        "height": 846
+      },
+      "hiRes": false
+    },
+    {
+      "thumb": {
+        "src": "/work/swapcloset/page-07.webp",
+        "width": 600,
+        "height": 843
+      },
+      "full": {
+        "src": "/work/swapcloset/page-07.webp",
+        "width": 600,
+        "height": 843
+      },
+      "hiRes": false
+    },
+    {
+      "thumb": {
+        "src": "/work/swapcloset/page-08.webp",
+        "width": 600,
+        "height": 846
+      },
+      "full": {
+        "src": "/work/swapcloset/full/page-08.webp",
+        "width": 1600,
+        "height": 2257
+      },
+      "hiRes": true
+    }
+  ],
+  "likami": [
+    {
+      "thumb": {
+        "src": "/work/likami/page-01.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-01.webp",
+        "width": 1414,
+        "height": 2000
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-02.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-02.webp",
+        "width": 1414,
+        "height": 2000
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-03.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-03.webp",
+        "width": 1414,
+        "height": 2000
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-04.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-04.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-05.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-05.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-06.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-06.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-07.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-07.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-08.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-08.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-09.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-09.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-10.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-10.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-11.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-11.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-12.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-12.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-13.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-13.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-14.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-14.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-15.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-15.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-16.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-16.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-17.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-17.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-18.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-18.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-19.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-19.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-20.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-20.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-21.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-21.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-22.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-22.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-23.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-23.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-24.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-24.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-25.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-25.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-26.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-26.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    },
+    {
+      "thumb": {
+        "src": "/work/likami/page-27.webp",
+        "width": 600,
+        "height": 849
+      },
+      "full": {
+        "src": "/work/likami/full/page-27.webp",
+        "width": 793,
+        "height": 1122
+      },
+      "hiRes": true
+    }
+  ]
+}

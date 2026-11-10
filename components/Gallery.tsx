@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Page } from "@/content";
 
@@ -9,12 +9,17 @@ type Props = {
   title: string;
   gridClassName: string;
   sizes: string;
-  /** Upper bound for the enlarged page, so low-res exports aren't blown up. */
-  maxViewWidth: number;
 };
 
+const MAX_VIEW_WIDTH = 900;
+const viewSizes = `(min-width: ${MAX_VIEW_WIDTH}px) ${MAX_VIEW_WIDTH}px, 88vw`;
+
+// Never upscale a page beyond its real resolution (fallback pages are small).
+const viewWidth = (page: Page) =>
+  `min(${Math.min(MAX_VIEW_WIDTH, page.full.width)}px, 88vw, calc((100dvh - 10rem) * ${page.full.width / page.full.height}))`;
+
 // A grid of brochure pages that opens into a keyboard/swipe lightbox.
-export default function Gallery({ pages, title, gridClassName, sizes, maxViewWidth }: Props) {
+export default function Gallery({ pages, title, gridClassName, sizes }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState<number | null>(null);
   const touchX = useRef<number | null>(null);
@@ -39,6 +44,19 @@ export default function Gallery({ pages, title, gridClassName, sizes, maxViewWid
     return () => window.removeEventListener("keydown", onKey);
   }, [index, step]);
 
+  // Warm the cache for the neighbouring pages so flipping feels instant.
+  useEffect(() => {
+    if (index === null) return;
+    for (const dir of [1, -1]) {
+      const { full } = pages[(index + dir + pages.length) % pages.length];
+      const { props } = getImageProps({ ...full, alt: "", quality: 90, sizes: viewSizes });
+      const img = new window.Image();
+      img.sizes = props.sizes ?? "";
+      img.srcset = props.srcSet ?? "";
+      img.src = props.src;
+    }
+  }, [index, pages]);
+
   const page = index === null ? null : pages[index];
 
   return (
@@ -52,14 +70,14 @@ export default function Gallery({ pages, title, gridClassName, sizes, maxViewWid
               className="group block w-full text-left"
               aria-label={`Open ${title}, ${p.label}`}
             >
-              <span className="block overflow-hidden bg-white shadow-[0_1px_2px_rgb(93_14_42/0.08)] transition-[transform,box-shadow] duration-500 ease-editorial group-hover:-translate-y-1.5 group-hover:shadow-[0_18px_40px_-12px_rgb(93_14_42/0.45)]">
+              <span className="block aspect-[1/1.414] overflow-hidden bg-white shadow-[0_1px_2px_rgb(93_14_42/0.08)] transition-[transform,box-shadow] duration-500 ease-editorial group-hover:-translate-y-1.5 group-hover:shadow-[0_18px_40px_-12px_rgb(93_14_42/0.45)]">
                 <Image
                   src={p.src}
                   width={p.width}
                   height={p.height}
                   alt={`${title} — ${p.label}`}
                   sizes={sizes}
-                  className="h-auto w-full transition-transform duration-700 ease-editorial group-hover:scale-[1.03]"
+                  className="h-full w-full object-cover object-top transition-transform duration-700 ease-editorial group-hover:scale-[1.03]"
                 />
               </span>
               <span className="mt-2 block text-[0.72rem] tracking-wide text-maroon/70 transition-colors group-hover:text-maroon">
@@ -82,23 +100,22 @@ export default function Gallery({ pages, title, gridClassName, sizes, maxViewWid
           touchX.current = null;
         }}
         aria-label={`${title} pages`}
-        className="m-0 h-dvh max-h-none w-screen max-w-none bg-transparent p-0 text-white backdrop:bg-transparent"
+        className="m-0 h-dvh max-h-none w-screen max-w-none cursor-pointer bg-transparent p-0 text-white backdrop:bg-transparent"
       >
         {page && (
           <div className="pointer-events-none flex h-full flex-col items-center justify-center gap-5 px-4 py-16">
-            <div className="pointer-events-auto relative" style={{ width: `min(${maxViewWidth}px, 88vw, calc((100dvh - 10rem) * ${page.width / page.height}))` }}>
+            <div className="pointer-events-auto relative cursor-default" style={{ width: viewWidth(page) }}>
               <Image
-                key={page.src}
-                src={page.src}
-                width={page.width}
-                height={page.height}
+                key={page.full.src}
+                {...page.full}
                 alt={`${title} — ${page.label}`}
-                sizes={`${maxViewWidth}px`}
+                quality={90}
+                sizes={viewSizes}
                 className="fade-in h-auto w-full bg-white shadow-2xl"
                 style={{ "--delay": "0ms" } as React.CSSProperties}
               />
             </div>
-            <p className="eyebrow pointer-events-auto text-blush">
+            <p className="eyebrow pointer-events-auto cursor-default text-blush">
               {title} · {String(index! + 1).padStart(2, "0")} / {String(pages.length).padStart(2, "0")}
             </p>
 

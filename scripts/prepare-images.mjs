@@ -12,6 +12,7 @@ const out = (...p) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   return file;
 };
+const pad = (n) => String(n).padStart(2, "0");
 
 // Lana's cutout, trimmed to the subject so it can be positioned precisely.
 await sharp(src("images/foto_lana_transparent_bg.png"))
@@ -30,64 +31,126 @@ await sharp(src("image-based-portfolio/slide_01.png"))
   .jpeg({ quality: 88 })
   .toFile(out("og.jpg"));
 
-// SwapCloset brochure: 4 x 2 grid of pages (bounds measured from background gaps).
-const swapCols = [
-  [28, 310],
-  [341, 623],
-  [653, 936],
-  [966, 1248],
-];
-const swapRows = [
-  [49, 446],
-  [482, 880],
-];
-let page = 1;
-for (const [top, bottom] of swapRows) {
-  for (const [left, right] of swapCols) {
-    await sharp(src("images/foto_swapcloset.png"))
-      .extract({ left, top, width: right - left + 1, height: bottom - top + 1 })
-      .resize({ width: 566, kernel: "lanczos3" })
-      .webp({ quality: 90 })
-      .toFile(out(`work/swapcloset/page-${page++}.webp`));
+// ---------------------------------------------------------------------------
+// Project pages.
+//
+// High-res exports live in images/my_work/<project>/ (or a language subfolder),
+// one file per page or per spread, numbered like "1.png" or "swapcloset_1.png".
+// Pages without a high-res export fall back to a crop of the overview image.
+
+// Crop page n (1-based) out of an overview image laid out as a grid of pages.
+const gridCrop = (file, cols, rows, trimBottom = 0) => (n) => {
+  const [left, right] = cols[(n - 1) % cols.length];
+  const [top, bottom] = rows[Math.floor((n - 1) / cols.length)];
+  return sharp(src(file)).extract({ left, top, width: right - left + 1, height: bottom - top + 1 - trimBottom });
+};
+
+const projects = {
+  swapcloset: {
+    dir: "swapcloset",
+    pages: 8,
+    // Files are: cover, spreads 2–3, 4–5, 6–7, and page 8.
+    pagesPerFile: [1, 2, 2, 2, 1],
+    // 4 x 2 grid of pages, bounds measured from the background gaps.
+    fallback: gridCrop(
+      "images/foto_swapcloset.png",
+      [[28, 310], [341, 623], [653, 936], [966, 1248]],
+      [[49, 446], [482, 880]],
+    ),
+  },
+  likami: {
+    dir: "likami/en",
+    pages: 27,
+    // 9 x 3 grid; the bottom 12px of each tile is the overview's "01 / 27" label.
+    fallback: gridCrop(
+      "images/foto_likami.png",
+      [[12, 166], [170, 326], [331, 487], [491, 645], [650, 805], [810, 964], [969, 1125], [1129, 1283], [1289, 1444]],
+      [[7, 233], [238, 465], [471, 698]],
+      12,
+    ),
+  },
+};
+
+const workDir = path.resolve(root, process.env.MY_WORK_DIR ?? "images/my_work");
+
+// Map page number -> { file, half } where half is "left", "right" or null.
+function findHighRes({ dir, pages, pagesPerFile }) {
+  const folder = path.join(workDir, dir);
+  const files = new Map();
+  if (fs.existsSync(folder)) {
+    for (const f of fs.readdirSync(folder)) {
+      const m = f.match(/(?:^|[_\s-])(\d+)\.(png|jpe?g|webp)$/i);
+      if (m) files.set(Number(m[1]), path.join(folder, f));
+    }
   }
+  const sources = new Map();
+  let page = 1;
+  for (let fileNo = 1; page <= pages; fileNo++) {
+    const count = pagesPerFile?.[fileNo - 1] ?? 1;
+    const file = files.get(fileNo);
+    for (let i = 0; i < count && page <= pages; i++, page++) {
+      if (file) sources.set(page, { file, half: count === 2 ? (i ? "right" : "left") : null });
+    }
+  }
+  return sources;
 }
 
-// Líkami training guide: 9 x 3 grid of pages. The bottom 12px of each tile is
-// the overview's "01 / 27" label strip, which the site renders itself.
-const likamiCols = [
-  [12, 166],
-  [170, 326],
-  [331, 487],
-  [491, 645],
-  [650, 805],
-  [810, 964],
-  [969, 1125],
-  [1129, 1283],
-  [1289, 1444],
-];
-const likamiRows = [
-  [7, 233],
-  [238, 465],
-  [471, 698],
-];
-page = 1;
-for (const [top, bottom] of likamiRows) {
-  for (const [left, right] of likamiCols) {
-    await sharp(src("images/foto_likami.png"))
-      .extract({ left, top, width: right - left + 1, height: bottom - top + 1 - 12 })
-      .resize({ width: 400, kernel: "lanczos3" })
-      .sharpen({ sigma: 0.6 })
-      .webp({ quality: 92 })
-      .toFile(out(`work/likami/page-${String(page++).padStart(2, "0")}.webp`));
-  }
+async function highResPage({ file, half }) {
+  const image = sharp(file);
+  const { width, height } = await image.metadata();
+  if (!half) return image;
+  if (width < height * 1.2) throw new Error(`${path.basename(file)} should be a spread but isn't landscape`);
+  const leftWidth = Math.floor(width / 2);
+  return image.extract(
+    half === "left"
+      ? { left: 0, top: 0, width: leftWidth, height }
+      : { left: leftWidth, top: 0, width: width - leftWidth, height },
+  );
 }
 
-// The Líkami cover is larger on the "Selected work" slide than in the overview.
-await sharp(src("image-based-portfolio/slide_04.png"))
-  .extract({ left: 443, top: 201, width: 228, height: 302 })
-  .resize({ width: 456, kernel: "lanczos3" })
-  .webp({ quality: 92 })
-  .toFile(out("work/likami/cover.webp"));
+fs.rmSync(path.join(root, "public", "work"), { recursive: true, force: true });
+const manifest = {};
+
+for (const [name, project] of Object.entries(projects)) {
+  const sources = findHighRes(project);
+  const entries = [];
+  for (let n = 1; n <= project.pages; n++) {
+    const source = sources.get(n);
+    // Extracted regions are flattened to a buffer so they can be resized twice.
+    const base = source ? await highResPage(source) : project.fallback(n);
+    const buffer = await base.png().toBuffer();
+
+    const thumb = await sharp(buffer)
+      .resize({ width: 600, kernel: "lanczos3" })
+      .webp({ quality: 88 })
+      .toFile(out(`work/${name}/page-${pad(n)}.webp`));
+    const full = source
+      ? await sharp(buffer)
+          .resize({ width: 1600, withoutEnlargement: true, kernel: "lanczos3" })
+          .webp({ quality: 90 })
+          .toFile(out(`work/${name}/full/page-${pad(n)}.webp`))
+      : thumb;
+
+    entries.push({
+      thumb: { src: `/work/${name}/page-${pad(n)}.webp`, width: thumb.width, height: thumb.height },
+      full: {
+        src: source ? `/work/${name}/full/page-${pad(n)}.webp` : `/work/${name}/page-${pad(n)}.webp`,
+        width: full.width,
+        height: full.height,
+      },
+      hiRes: Boolean(source),
+    });
+  }
+  manifest[name] = entries;
+  const missing = entries.flatMap((e, i) => (e.hiRes ? [] : [i + 1]));
+  console.log(
+    `${name}: ${entries.length - missing.length}/${entries.length} high-res` +
+      (missing.length ? ` (overview fallback for page ${missing.join(", ")})` : ""),
+  );
+}
+
+fs.mkdirSync(src("generated"), { recursive: true });
+fs.writeFileSync(src("generated/work-manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 
 // Moodboard: original photos named images/moodboard_<n>.{jpg,jpeg,png,webp} win;
 // otherwise fall back to the collage cropped from slide 7.
@@ -114,5 +177,5 @@ if (originals.length) {
 }
 
 console.log(
-  `Done. Moodboard: ${originals.length ? `${originals.length} original photo(s)` : "collage fallback from slide 7"}.`,
+  `Moodboard: ${originals.length ? `${originals.length} original photo(s)` : "collage fallback from slide 7"}.`,
 );

@@ -34,7 +34,6 @@ export function SwapClosetProject() {
               title="SwapCloset"
               gridClassName="grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-4 md:gap-x-5 md:gap-y-7"
               sizes="(min-width: 1024px) 15vw, (min-width: 640px) 22vw, 45vw"
-              maxViewWidth={600}
             />
           </div>
         </Reveal>
@@ -67,7 +66,6 @@ export function LikamiProject() {
               title="Líkami"
               gridClassName="grid grid-cols-3 gap-x-2.5 gap-y-4 sm:grid-cols-5 md:grid-cols-7 md:gap-x-3 lg:grid-cols-9"
               sizes="(min-width: 1024px) 11vw, (min-width: 768px) 14vw, (min-width: 640px) 19vw, 31vw"
-              maxViewWidth={460}
             />
           </div>
         </Reveal>
